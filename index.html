@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SU Console</title>
+<style>
+body{margin:0;padding:20px;background:#15191f;color:#fff;font:16px Arial}
+main{max-width:700px;margin:auto}
+h1{color:#ff922b}
+.panel{background:#222833;padding:18px;border-radius:14px;margin-top:16px}
+label{display:block;margin:12px 0 6px;color:#bbc5d3}
+input,select,button{box-sizing:border-box;width:100%;padding:13px;border-radius:8px;font-size:16px}
+input,select{background:#11151b;color:white;border:1px solid #414b5a}
+button{margin-top:12px;background:#ff922b;border:0;font-weight:bold}
+pre{white-space:pre-wrap;background:#11151b;padding:12px;border-radius:8px}
+</style>
+</head>
+<body>
+<main>
+<h1>SU Console</h1>
+<p>Генератор моделей для SketchUp на iPad</p>
+<div class="panel">
+<h3>Параметры ангара</h3>
+<label>Длина, м</label><input id="l" type="number" value="18" min="2">
+<label>Ширина, м</label><input id="w" type="number" value="12" min="2">
+<label>Высота, м</label><input id="h" type="number" value="6" min="2">
+<label>Шаг рам, м</label><input id="s" type="number" value="6" min="2">
+<button onclick="generate()">Рассчитать каркас</button>
+<pre id="out">Ожидание команды…</pre>
+</div>
+<script>
+function generate(){
+ const l=+document.getElementById('l').value;
+ const w=+document.getElementById('w').value;
+ const h=+document.getElementById('h').value;
+ const s=+document.getElementById('s').value;
+ if(![l,w,h,s].every(Number.isFinite)||![l,w,h,s].every(v=>v>0)){
+  document.getElementById('out').textContent='Проверь введённые размеры.';
+  return;
+ }
+ const frames=Math.ceil(l/s)+1;
+ document.getElementById('out').textContent=
+ 'Расчёт выполнен\\n'+
+ 'Габариты: '+l+' × '+w+' × '+h+' м\\n'+
+ 'Шаг рам: '+s+' м\\n'+
+ 'Количество рам по длине: '+frames+'\\n'+
+ 'Колонн: '+frames*2+'\\n\\n'+
+ 'Это первый тест интерфейса. Экспорт 3D-модели подключим следующим шагом.';
+}
+</script>
+</main>
+</body>
+</html>
